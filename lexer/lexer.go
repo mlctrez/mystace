@@ -33,14 +33,6 @@ func New(source source.Source, options ...Option) Lexer {
 	return l
 }
 
-type Token struct {
-	data source.Data
-}
-
-func (t Token) String() string {
-	return fmt.Sprintf("Token: %s", t.data)
-}
-
 func (l *lexer) Parse() (tokens []Token, err error) {
 
 	if l.maxLoops == 0 {
@@ -60,7 +52,7 @@ func (l *lexer) Parse() (tokens []Token, err error) {
 		}
 
 		if start := strings.Index(peek.Str, "{{"); start > 0 {
-			tokens = append(tokens, Token{data: l.source.Read(start)})
+			tokens = append(tokens, Token{Data: l.source.Read(start)})
 			continue
 		}
 		if start := strings.Index(peek.Str, "{{"); start == 0 {
@@ -72,11 +64,11 @@ func (l *lexer) Parse() (tokens []Token, err error) {
 			if len(peek.Str) > end+2 && peek.Str[end:end+3] == "}}}" {
 				end++
 			}
-			tokens = append(tokens, Token{data: l.source.Read(end + 2)})
+			tokens = append(tokens, Token{Data: l.source.Read(end + 2)})
 			continue
 		}
 		if start := strings.Index(peek.Str, "{{"); start < 0 {
-			tokens = append(tokens, Token{data: l.source.Read(len(peek.Str))})
+			tokens = append(tokens, Token{Data: l.source.Read(len(peek.Str))})
 		}
 
 	}

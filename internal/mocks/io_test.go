@@ -44,3 +44,11 @@ func TestBadReader_Close(t *testing.T) {
 	require.ErrorIs(err, ErrBadReaderMockError)
 
 }
+func TestBadWriter_Write(t *testing.T) {
+	_, require := testify.New(t)
+	w := &BadWriter{WriteErr: ErrBadWriterMockError}
+	write, err := w.Write([]byte{0})
+	require.Equal(0, write)
+	require.ErrorIs(err, ErrBadWriterMockError)
+
+}

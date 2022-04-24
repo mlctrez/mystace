@@ -158,6 +158,7 @@ type Location struct {
 }
 
 var (
-	ErrNilReadCloser   = fmt.Errorf("nil readCloser")
-	ErrEmptySourceName = fmt.Errorf("empty name")
+	ErrNilReadCloser       = fmt.Errorf("nil readCloser")
+	ErrEmptySourceName     = fmt.Errorf("empty name")
+	ErrDuplicateSourceName = fmt.Errorf("empty name")
 )

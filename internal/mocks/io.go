@@ -9,6 +9,7 @@ var _ io.ReadCloser = (*BadReader)(nil)
 
 var (
 	ErrBadReaderMockError = fmt.Errorf("a test error for mocking")
+	ErrBadWriterMockError = fmt.Errorf("a mock write error")
 )
 
 type BadReader struct {
@@ -40,4 +41,17 @@ func (b *BadReader) Read(p []byte) (n int, err error) {
 
 func (b *BadReader) Close() error {
 	return b.CloseErr
+}
+
+var _ io.Writer = (*BadWriter)(nil)
+
+type BadWriter struct {
+	WriteErr error
+}
+
+func (b *BadWriter) Write(p []byte) (n int, err error) {
+	if b.WriteErr != nil {
+		err = b.WriteErr
+	}
+	return
 }

@@ -19,10 +19,10 @@ func TestLexer_Parse(t *testing.T) {
 	parse, err = New(s).Parse()
 	require.Nil(err)
 	require.NotNil(parse)
-	require.Equal("{{aaa}}", parse[0].data.Str)
-	require.Equal("bbb", parse[1].data.Str)
-	require.Equal("{{{ccc}}}", parse[2].data.Str)
-	require.Equal("fff", parse[5].data.Str)
+	require.Equal("{{aaa}}", parse[0].Data.Str)
+	require.Equal("bbb", parse[1].Data.Str)
+	require.Equal("{{{ccc}}}", parse[2].Data.Str)
+	require.Equal("fff", parse[5].Data.Str)
 
 	s, err = source.FromString("{{")
 	require.Nil(err)
@@ -46,7 +46,7 @@ func TestToken_String(t *testing.T) {
 	src, err := source.FromString("some data \n with newline")
 	require.Nil(err)
 
-	token := Token{data: src.Read(200)}
+	token := Token{Data: src.Read(200)}
 
 	require.Equal("Token: Data:\"some data \\n with newline\" {{1 1} {2 13}}", token.String())
 
