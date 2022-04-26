@@ -24,6 +24,10 @@ func TestFromString(t *testing.T) {
 	require.Nil(err)
 	require.Equal("😄", src.(*source).data)
 
+	src, err = FromString("has newline at end\n")
+	require.Nil(err)
+	require.Equal("has newline at end\n", src.(*source).data)
+
 }
 
 func TestFromReadCloser(t *testing.T) {
@@ -110,7 +114,6 @@ func TestSource_PeekRange(t *testing.T) {
 	p = src.Peek(100)
 	assert.Equal(Location{1, 6}, p.Range.Start)
 	assert.Equal(Location{2, 9}, p.Range.End)
-
 }
 
 func TestSource_locationAtPosition(t *testing.T) {

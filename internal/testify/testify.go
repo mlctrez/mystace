@@ -8,5 +8,13 @@ import (
 )
 
 func New(t *testing.T) (assert *assertN.Assertions, require *requireN.Assertions) {
-	return assertN.New(t), requireN.New(t)
+	return Assert(t), Require(t)
+}
+
+func Assert(t *testing.T) (assert *assertN.Assertions) {
+	return assertN.New(t)
+}
+
+func Require(t *testing.T) (require *requireN.Assertions) {
+	return requireN.New(t)
 }

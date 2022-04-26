@@ -21,7 +21,8 @@ type source struct {
 	data string
 	name string
 	// position is the 0 index current location within data for the next read
-	position int
+	position      int
+	stringNewLine bool
 }
 
 func (s *source) locationAtPosition(pos int) (l Location) {
@@ -115,11 +116,19 @@ func FromReadCloser(r io.ReadCloser, options ...Option) (s Source, err error) {
 			return
 		}
 	}
+	if sp.stringNewLine {
+		lines = append(lines, "")
+	}
+	sp.data = strings.Join(lines, "\n")
+
 	s = sp
 	return
 }
 
 func FromString(data string, options ...Option) (s Source, err error) {
+	if strings.HasSuffix(data, "\n") {
+		options = append(options, WithStringNewline())
+	}
 	return FromReadCloser(ioutil.NopCloser(bytes.NewBufferString(data)), options...)
 }
 
@@ -131,6 +140,13 @@ func WithName(name string) Option {
 			return ErrEmptySourceName
 		}
 		s.name = name
+		return nil
+	}
+}
+
+func WithStringNewline() Option {
+	return func(s *source) error {
+		s.stringNewLine = true
 		return nil
 	}
 }
